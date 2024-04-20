@@ -43,13 +43,27 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                     ),
                   ],
                 ),
-                padding: const EdgeInsets.all(16.0),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Nakupovalni seznam",
-                      style: TextStyle(fontSize: 18),
+                    const Column(
+                      children: [
+                        Text(
+                          "Nakupovalni seznam",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () => setState(() {
+                            shoppingList.clear();
+                          }),
+                          icon: const Icon(Icons.clear_all),
+                        ),
+                      ],
                     ),
                   ],
                 ),
