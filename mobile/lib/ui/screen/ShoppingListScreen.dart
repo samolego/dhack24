@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trgovinavigator/constants.dart';
-import 'package:trgovinavigator/logic/product_item.dart';
 import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
+import 'package:trgovinavigator/ui/component/dialogue.dart';
 import 'package:trgovinavigator/ui/screen/SearchProductsScreen.dart';
 
-final List<Widget> shoppingList = <Widget>[
-  const ShoppingItem(
-      product: ProductItem(id_izdelka: 1, id_police: 2, ime_izdelka: "Kruh")),
-];
+final List<Widget> shoppingList = <Widget>[];
 
 class ShoppingListScreen extends StatefulWidget {
   const ShoppingListScreen({super.key});
@@ -58,9 +55,24 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: () => setState(() {
-                            shoppingList.clear();
-                          }),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (builder) => YesNoDialogue(
+                                title: const Text("Izbriši vse izdelke?"),
+                                content: const Text(
+                                    "Ali ste prepričani, da želite izbrisati vse izdelke?"),
+                                onYes: () {
+                                  setState(() {
+                                    shoppingList.clear();
+                                  });
+                                },
+                                onNo: () {
+                                  // Do nothing
+                                },
+                              ),
+                            );
+                          },
                           icon: const Icon(Icons.clear_all),
                         ),
                       ],
@@ -93,7 +105,16 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                       .isEmpty;
                   setState(() {
                     if (canAdd) {
-                      shoppingList.add(ShoppingItem(product: p));
+                      shoppingList.add(ShoppingItem(
+                        product: p,
+                        onRemove: () {
+                          setState(() {
+                            shoppingList.removeWhere((element) =>
+                                (element as ShoppingItem).product.id_izdelka ==
+                                p.id_izdelka);
+                          });
+                        },
+                      ));
                     }
                   });
                   return canAdd;

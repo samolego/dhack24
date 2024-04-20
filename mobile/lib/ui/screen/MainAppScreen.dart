@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trgovinavigator/ui/screen/MapScreen.dart';
-import 'package:trgovinavigator/ui/screen/ShopScanScreen.dart';
 import 'package:trgovinavigator/ui/screen/ShoppingListScreen.dart';
 
 class MainAppScreen extends StatefulWidget {
@@ -11,12 +10,11 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
 
   final List<Widget> _children = [
     const ShoppingListScreen(),
     const MapScreen(),
-    const ShopScanScreen(),
   ];
 
   void onTabTapped(int index) {
