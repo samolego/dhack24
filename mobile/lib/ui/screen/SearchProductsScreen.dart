@@ -100,31 +100,32 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
             itemCount: filteredProducts.length,
             itemBuilder: ((context, index) {
               final product = filteredProducts[index];
+              final bool inStock = product["in_stock"];
               return ListTile(
+                tileColor: inStock ? null : Colors.grey[200],
                 title: Text(
                   product['ime_izdelka'],
                   style: TextStyle(
-                    color: !product["in_stock"] ? Colors.red : Colors.black,
+                    color: !inStock ? Colors.red : Colors.black,
                   ),
                 ),
-                trailing:
-                    product["in_stock"] ? null : const Text("Ni na zalogi"),
-                onTap: () {
-                  bool inStock = product["in_stock"];
-                  bool added = false;
-                  if (inStock) {
-                    added = widget.onProductSelect(
-                      ProductItem(
-                        id_izdelka: product["id_izdelka"],
-                        id_police: product["id_police"],
-                        ime_izdelka: product["ime_izdelka"],
-                        in_stock: product["in_stock"],
-                      ),
-                    );
-                  }
+                trailing: inStock ? null : const Text("Ni na zalogi"),
+                onTap: inStock
+                    ? () {
+                        bool added = false;
+                        if (inStock) {
+                          added = widget.onProductSelect(
+                            ProductItem(
+                              id_izdelka: product["id_izdelka"],
+                              id_police: product["id_police"],
+                              ime_izdelka: product["ime_izdelka"],
+                              in_stock: inStock,
+                            ),
+                          );
+                        }
                   if (added) {
                     final ScaffoldMessengerState scaffoldMessenger =
-                        ScaffoldMessenger.of(context);
+                    ScaffoldMessenger.of(context);
 
                     final SnackBar snackBar = SnackBar(
                         duration: const Duration(seconds: 1),
@@ -132,20 +133,21 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
 
                     // Find the nearest ScaffoldMessengerState object in the widget tree
                     final ScaffoldMessengerState? nearestScaffoldMessenger =
-                        context
-                            .findAncestorStateOfType<ScaffoldMessengerState>();
+                    context
+                        .findAncestorStateOfType<ScaffoldMessengerState>();
 
-                    // If the nearest ScaffoldMessengerState object is not null, use it to show the snackbar
-                    if (nearestScaffoldMessenger != null) {
-                      nearestScaffoldMessenger.hideCurrentSnackBar();
-                      nearestScaffoldMessenger.showSnackBar(snackBar);
-                    } else {
-                      // If the nearest ScaffoldMessengerState object is null, use the global ScaffoldMessenger to show the snackbar
-                      scaffoldMessenger.hideCurrentSnackBar();
-                      scaffoldMessenger.showSnackBar(snackBar);
-                    }
-                  }
-                },
+                          // If the nearest ScaffoldMessengerState object is not null, use it to show the snackbar
+                          if (nearestScaffoldMessenger != null) {
+                            nearestScaffoldMessenger.hideCurrentSnackBar();
+                            nearestScaffoldMessenger.showSnackBar(snackBar);
+                          } else {
+                            // If the nearest ScaffoldMessengerState object is null, use the global ScaffoldMessenger to show the snackbar
+                            scaffoldMessenger.hideCurrentSnackBar();
+                            scaffoldMessenger.showSnackBar(snackBar);
+                          }
+                        }
+                      }
+                    : null,
               );
             }),
           );
