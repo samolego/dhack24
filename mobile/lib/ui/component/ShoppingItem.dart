@@ -17,7 +17,13 @@ class ShoppingItem extends StatefulWidget {
 }
 
 class _ShoppingItemState extends State<ShoppingItem> {
-  bool _isChecked = false;
+  late bool _isChecked;
+
+  @override
+  void initState() {
+    super.initState();
+    _isChecked = widget.product.isChecked;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +46,7 @@ class _ShoppingItemState extends State<ShoppingItem> {
       onTap: () {
         setState(() {
           _isChecked = !_isChecked;
+          widget.product.isChecked = _isChecked;
         });
       },
       trailing: Checkbox(
@@ -47,6 +54,7 @@ class _ShoppingItemState extends State<ShoppingItem> {
         onChanged: (bool? value) {
           setState(() {
             _isChecked = value!;
+            widget.product.isChecked = _isChecked;
           });
         },
       ),
