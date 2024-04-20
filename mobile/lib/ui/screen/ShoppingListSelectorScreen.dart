@@ -8,7 +8,12 @@ import 'package:trgovinavigator/ui/component/fab_add_button.dart';
 import 'package:trgovinavigator/ui/screen/EditShoppingListScreen.dart';
 
 class ShoppingListSelectorScreen extends StatefulWidget {
-  const ShoppingListSelectorScreen({super.key});
+  final void Function(List<ProductItem>) onUse;
+
+  const ShoppingListSelectorScreen({
+    super.key,
+    required this.onUse,
+  });
 
   @override
   State<ShoppingListSelectorScreen> createState() =>
@@ -78,6 +83,9 @@ class _ShoppingListSelectorScreenState
                   pushScreen(
                       context,
                       EditShoppingListScreen(
+                        onUse: () {
+                          widget.onUse(_shoppingLists[item.key]!);
+                        },
                         name: item.key,
                         onAdd: (product) {
                           setState(() {
@@ -101,14 +109,14 @@ class _ShoppingListSelectorScreenState
                         },
                         shoppingList: productList
                             .map((e) => ShoppingItem(
-                            product: e,
-                            onRemove: () {
-                              setState(() {
-                                item.value.remove(e);
-                                _shoppingLists[item.key] = item.value;
-                                shoppingLists[item.key] = item.value;
-                              });
-                            }))
+                                product: e,
+                                onRemove: () {
+                                  setState(() {
+                                    item.value.remove(e);
+                                    _shoppingLists[item.key] = item.value;
+                                    shoppingLists[item.key] = item.value;
+                                  });
+                                }))
                             .toList(),
                       ));
                 },

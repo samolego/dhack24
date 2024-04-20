@@ -13,6 +13,7 @@ class EditShoppingListScreen extends StatefulWidget {
   final VoidCallback onClearAll;
   final Function(ProductItem) onRemove;
   final Function(ProductItem) onAdd;
+  final VoidCallback onUse;
 
   const EditShoppingListScreen({
     super.key,
@@ -21,6 +22,7 @@ class EditShoppingListScreen extends StatefulWidget {
     required this.onRemove,
     required this.onAdd,
     required this.name,
+    required this.onUse,
   }) : _shoppingList = shoppingList;
 
   List<Widget> get shoppingList => _shoppingList;
@@ -84,6 +86,7 @@ class _EditShoppingListScreenState extends State<EditShoppingListScreen> {
                   backgroundColor: AppColors.primary,
                 ),
                 onPressed: () {
+                  widget.onUse();
                   Navigator.pop(context);
                 },
                 child: Text(

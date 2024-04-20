@@ -13,11 +13,21 @@ class MainAppScreen extends StatefulWidget {
 class _MainAppScreenState extends State<MainAppScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [
-    const ShoppingListSelectorScreen(),
-    const StatsScreen(),
-    const MapScreen(),
-  ];
+  late final List<Widget> _children;
+
+  @override
+  void initState() {
+    super.initState();
+    _children = [
+      ShoppingListSelectorScreen(onUse: (products) {
+        // Naviagte to map screen
+        onTabTapped(2);
+        print(products.map((e) => e.ime_izdelka));
+      }),
+      const StatsScreen(),
+      const MapScreen(),
+    ];
+  }
 
   void onTabTapped(int index) {
     setState(() {
