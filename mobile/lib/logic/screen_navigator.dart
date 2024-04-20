@@ -6,3 +6,7 @@ void pushScreen(context, widget) {
     MaterialPageRoute(builder: (context) => widget),
   );
 }
+
+void popScreen(context) {
+  Navigator.pop(context);
+}

@@ -7,7 +7,10 @@ final _products = Supabase.instance.client.from('izdelki').select();
 class SearchProductListScreen extends StatefulWidget {
   final void Function(ProductItem) onProductSelect;
 
-  const SearchProductListScreen({super.key, required this.onProductSelect});
+  const SearchProductListScreen({
+    super.key,
+    required this.onProductSelect,
+  });
 
   @override
   State<SearchProductListScreen> createState() =>
@@ -15,9 +18,9 @@ class SearchProductListScreen extends StatefulWidget {
 }
 
 class _SearchProductListScreenState extends State<SearchProductListScreen> {
-  List<dynamic> _selectedProducts = [];
-  TextEditingController _searchController = TextEditingController();
-  List<dynamic> _filteredProducts = [];
+  final List<dynamic> _selectedProducts = [];
+  final TextEditingController _searchController = TextEditingController();
+  final List<dynamic> _filteredProducts = [];
   bool _isSearching = false;
 
   @override
@@ -53,7 +56,7 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
         ),
         actions: <Widget>[
@@ -99,7 +102,15 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
               final product = products[index];
               return ListTile(
                 title: Text(product['ime_izdelka']),
-                onTap: () {},
+                onTap: () {
+                  widget.onProductSelect(
+                    ProductItem(
+                      id_izdelka: product["id_izdelka"],
+                      id_police: product["id_police"],
+                      ime_izdelka: product["ime_izdelka"],
+                    ),
+                  );
+                },
               );
             }),
           );

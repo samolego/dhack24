@@ -4,6 +4,11 @@ import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
 import 'package:trgovinavigator/ui/screen/SearchProductsScreen.dart';
 
+final List<Widget> shoppingList = <Widget>[
+  const ShoppingItem(
+      product: ProductItem(id_izdelka: 1, id_police: 2, ime_izdelka: "Kruh")),
+];
+
 class ShoppingListScreen extends StatefulWidget {
   const ShoppingListScreen({super.key});
 
@@ -12,18 +17,21 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  final List<ShoppingItem> _shoppingList = <ShoppingItem>[
-    const ShoppingItem(
-        product: ProductItem(id_izdelka: 1, id_police: 2, ime_izdelka: "Kruh")),
-  ];
-
   @override
   Widget build(BuildContext context) {
     // Create a list of shopping items with checkbars at the end
     return Stack(
       children: [
-        ListView(
-          children: _shoppingList,
+        Positioned(
+          bottom: 0,
+          top: 0,
+          right: 0,
+          left: 0,
+          child: SingleChildScrollView(
+            child: Column(
+              children: shoppingList,
+            ),
+          ),
         ),
         Positioned(
           bottom: 16,
@@ -36,7 +44,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
               pushScreen(context, SearchProductListScreen(
                 onProductSelect: (p) {
                   setState(() {
-                    _shoppingList.add(ShoppingItem(product: p));
+                    shoppingList.add(ShoppingItem(product: p));
                   });
                 },
               ));
