@@ -101,15 +101,27 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
             itemBuilder: ((context, index) {
               final product = filteredProducts[index];
               return ListTile(
-                title: Text(product['ime_izdelka']),
+                title: Text(
+                  product['ime_izdelka'],
+                  style: TextStyle(
+                    color: !product["in_stock"] ? Colors.red : Colors.black,
+                  ),
+                ),
+                trailing:
+                    product["in_stock"] ? null : const Text("Ni na zalogi"),
                 onTap: () {
-                  bool added = widget.onProductSelect(
-                    ProductItem(
-                      id_izdelka: product["id_izdelka"],
-                      id_police: product["id_police"],
-                      ime_izdelka: product["ime_izdelka"],
-                    ),
-                  );
+                  bool inStock = product["in_stock"];
+                  bool added = false;
+                  if (inStock) {
+                    added = widget.onProductSelect(
+                      ProductItem(
+                        id_izdelka: product["id_izdelka"],
+                        id_police: product["id_police"],
+                        ime_izdelka: product["ime_izdelka"],
+                        in_stock: product["in_stock"],
+                      ),
+                    );
+                  }
                   if (added) {
                     final ScaffoldMessengerState scaffoldMessenger =
                         ScaffoldMessenger.of(context);
