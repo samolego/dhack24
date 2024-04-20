@@ -44,11 +44,11 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Column(
+                    Column(
                       children: [
                         Text(
                           "Nakupovalni seznam",
-                          style: TextStyle(fontSize: 18),
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ],
                     ),

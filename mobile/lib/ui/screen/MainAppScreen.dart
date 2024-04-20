@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trgovinavigator/ui/screen/MapScreen.dart';
 import 'package:trgovinavigator/ui/screen/ShoppingListScreen.dart';
+import 'package:trgovinavigator/ui/screen/StatsScreen.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key});
@@ -14,6 +15,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
 
   final List<Widget> _children = [
     const ShoppingListScreen(),
+    const StatsScreen(),
     const MapScreen(),
   ];
 
@@ -33,11 +35,15 @@ class _MainAppScreenState extends State<MainAppScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.list_alt),
-            label: 'Shopping list',
+            label: 'Nakupovalni seznam',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Domov',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: 'Map',
+            label: 'Zemljevid',
           ),
         ],
       ),

@@ -37,6 +37,11 @@ class _ShoppingItemState extends State<ShoppingItem> {
           ),
         );
       },
+      onTap: () {
+        setState(() {
+          _isChecked = !_isChecked;
+        });
+      },
       trailing: Checkbox(
         value: _isChecked,
         onChanged: (bool? value) {
