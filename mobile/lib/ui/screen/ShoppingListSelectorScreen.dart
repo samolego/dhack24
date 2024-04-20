@@ -3,7 +3,7 @@ import 'package:trgovinavigator/constants.dart';
 import 'package:trgovinavigator/logic/product_item.dart';
 import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
-import 'package:trgovinavigator/ui/screen/ShoppingListScreen.dart';
+import 'package:trgovinavigator/ui/screen/EditShoppingListScreen.dart';
 
 class ShoppingListSelectorScreen extends StatefulWidget {
   const ShoppingListSelectorScreen({super.key});
@@ -41,7 +41,27 @@ class _ShoppingListSelectorScreenState
                 onTap: () {
                   pushScreen(
                       context,
-                      ShoppingListScreen(
+                      EditShoppingListScreen(
+                        onAdd: (product) {
+                          setState(() {
+                            item.value.add(product);
+                            _shoppingLists[item.key] = item.value;
+                          });
+                        },
+                        onRemove: (product) {
+                          setState(() {
+                            item.value.remove(product);
+                            _shoppingLists[item.key] = item.value;
+                            shoppingLists[item.key] = item.value;
+                          });
+                        },
+                        onClearAll: () {
+                          setState(() {
+                            item.value.clear();
+                            _shoppingLists[item.key] = item.value;
+                            shoppingLists[item.key] = item.value;
+                          });
+                        },
                         shoppingList: productList
                             .map((e) => ShoppingItem(
                                 product: e,
@@ -49,6 +69,7 @@ class _ShoppingListSelectorScreenState
                                   setState(() {
                                     item.value.remove(e);
                                     _shoppingLists[item.key] = item.value;
+                                    shoppingLists[item.key] = item.value;
                                   });
                                 }))
                             .toList(),
@@ -67,7 +88,8 @@ class _ShoppingListSelectorScreenState
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget risus porta, tincidunt turpis at, interdum tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
+                          // Show first 3 items
+                          "${productList.map((e) => e.ime_izdelka).take(3).join("\n")}${productList.length > 3 ? "\n..." : ''}",
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
