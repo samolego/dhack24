@@ -13,9 +13,16 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
-      options: const MapOptions(
-        initialCenter: LatLng(0, 0),
+      options: MapOptions(
+        initialCenter: const LatLng(0, 0),
         initialZoom: 0,
+        minZoom: 0,
+        cameraConstraint: CameraConstraint.containCenter(
+          bounds: LatLngBounds(
+            const LatLng(0, 0),
+            const LatLng(0, 0),
+          ),
+        ),
       ),
       children: [
         TileLayer(
