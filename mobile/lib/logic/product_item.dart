@@ -5,8 +5,8 @@ class ProductItem {
   final bool in_stock;
 
   const ProductItem({
-    required this.id_izdelka,
-    required this.id_police,
+    this.id_izdelka = 0,
+    this.id_police = 0,
     required this.ime_izdelka,
     this.in_stock = true,
   });

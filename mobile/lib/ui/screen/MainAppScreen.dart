@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trgovinavigator/ui/screen/MapScreen.dart';
-import 'package:trgovinavigator/ui/screen/ShoppingListScreen.dart';
+import 'package:trgovinavigator/ui/screen/ShoppingListSelectorScreen.dart';
 import 'package:trgovinavigator/ui/screen/StatsScreen.dart';
 
 class MainAppScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-    const ShoppingListScreen(),
+    const ShoppingListSelectorScreen(),
     const StatsScreen(),
     const MapScreen(),
   ];
