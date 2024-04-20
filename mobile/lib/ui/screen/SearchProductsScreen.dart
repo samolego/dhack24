@@ -96,7 +96,7 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
           return ListView.builder(
             itemCount: filteredProducts.length,
             itemBuilder: ((context, index) {
-              final product = products[index];
+              final product = filteredProducts[index];
               return ListTile(
                 title: Text(product['ime_izdelka']),
                 onTap: () {},
