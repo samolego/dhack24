@@ -39,10 +39,6 @@ class _MainAppScreenState extends State<MainAppScreen> {
             icon: Icon(Icons.map),
             label: 'Map',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt),
-            label: 'Add shop',
-          ),
         ],
       ),
     );
