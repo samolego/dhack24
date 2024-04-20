@@ -10,20 +10,20 @@ const DB_KEY =
 
 final Map<String, List<ProductItem>> shoppingLists = {
   'Tedenski': <ProductItem>[
-    const ProductItem(ime_izdelka: 'Mleko'),
-    const ProductItem(ime_izdelka: 'Kruh'),
-    const ProductItem(ime_izdelka: 'Jajca'),
-    const ProductItem(ime_izdelka: 'Maslo'),
-    const ProductItem(ime_izdelka: 'Sir'),
-    const ProductItem(ime_izdelka: 'Banane'),
+    ProductItem(ime_izdelka: 'Mleko'),
+    ProductItem(ime_izdelka: 'Kruh'),
+    ProductItem(ime_izdelka: 'Jajca'),
+    ProductItem(ime_izdelka: 'Maslo'),
+    ProductItem(ime_izdelka: 'Sir'),
+    ProductItem(ime_izdelka: 'Banane'),
   ],
   'Mercator': <ProductItem>[
-    const ProductItem(ime_izdelka: "Cvetača"),
-    const ProductItem(ime_izdelka: "Brokoli"),
-    const ProductItem(ime_izdelka: "Piščančje prsi"),
+    ProductItem(ime_izdelka: "Cvetača"),
+    ProductItem(ime_izdelka: "Brokoli"),
+    ProductItem(ime_izdelka: "Piščančje prsi"),
   ],
   'Test': <ProductItem>[
-    const ProductItem(ime_izdelka: "Žemljice"),
+    ProductItem(ime_izdelka: "Žemljice"),
   ],
 };
 
