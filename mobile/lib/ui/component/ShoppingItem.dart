@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:trgovinavigator/logic/product_item.dart';
 
 class ShoppingItem extends StatefulWidget {
-  final int itemId;
-  final String itemName;
+  final ProductItem product;
 
   const ShoppingItem({
     super.key,
-    required this.itemName,
-    required this.itemId,
+    required this.product,
   });
 
   @override
@@ -20,7 +19,7 @@ class _ShoppingItemState extends State<ShoppingItem> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(widget.itemName),
+      title: Text(widget.product.ime_izdelka),
       trailing: Checkbox(
         value: _isChecked,
         onChanged: (bool? value) {

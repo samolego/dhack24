@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trgovinavigator/logic/product_item.dart';
 import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
 import 'package:trgovinavigator/ui/screen/SearchProductsScreen.dart';
@@ -12,9 +13,8 @@ class ShoppingListScreen extends StatefulWidget {
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
   final List<ShoppingItem> _shoppingList = <ShoppingItem>[
-    const ShoppingItem(itemId: 1, itemName: "Milk"),
-    const ShoppingItem(itemId: 2, itemName: "Bread"),
-    const ShoppingItem(itemId: 3, itemName: "Eggs"),
+    const ShoppingItem(
+        product: ProductItem(id_izdelka: 1, id_police: 2, ime_izdelka: "Kruh")),
   ];
 
   @override
@@ -33,7 +33,13 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
             shape: const CircleBorder(),
             onPressed: () {
               // Push new screen
-              pushScreen(context, const SearchProductListScreen());
+              pushScreen(context, SearchProductListScreen(
+                onProductSelect: (p) {
+                  setState(() {
+                    _shoppingList.add(ShoppingItem(product: p));
+                  });
+                },
+              ));
             },
             child: const Icon(Icons.add),
           ),
