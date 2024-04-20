@@ -13,36 +13,28 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: InteractiveViewer(
-            boundaryMargin: const EdgeInsets.all(20.0),
-            minScale: 0.1,
-            maxScale: 5.6,
-            child: Stack(
-              children: [
-                Center(
-                  child: Image.asset('assets/map.png'), // Center the image
-                ),
-                GestureDetector(
-                  onTapUp: (details) {
-                    setState(() {
-                      // Add the position where user tapped
-                      objectPositions.add(details.localPosition);
-                    });
-                  },
-                ),
-                CustomPaint(
-                  // Use CustomPaint to draw objects on top of the image
-                  painter: ObjectPainter(objectPositions),
-                ),
-              ],
-            ),
+    return InteractiveViewer(
+      boundaryMargin: const EdgeInsets.all(20.0),
+      minScale: 0.1,
+      maxScale: 5.6,
+      child: Stack(
+        children: [
+          Center(
+            child: Image.asset('assets/map.png'), // Center the image
           ),
-        ),
+          GestureDetector(
+            onTapUp: (details) {
+              setState(() {
+                // Add the position where user tapped
+                objectPositions.add(details.localPosition);
+              });
+            },
+          ),
+          CustomPaint(
+            // Use CustomPaint to draw objects on top of the image
+            painter: ObjectPainter(objectPositions),
+          ),
+        ],
       ),
     );
   }
