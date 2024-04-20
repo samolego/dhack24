@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
+
+final _izdelki = Supabase.instance.client.from('izdelki').select();
 
 class ShoppingListScreen extends StatefulWidget {
   const ShoppingListScreen({super.key});
@@ -24,9 +27,11 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
           children: _shoppingList,
         ),
         Positioned(
-          bottom: 0,
-          right: 0,
+          bottom: 16,
+          right: 16,
           child: FloatingActionButton(
+            // Circular
+            shape: const CircleBorder(),
             onPressed: () {
               // Add a new item to the shopping list
               setState(() {
