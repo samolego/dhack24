@@ -35,7 +35,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.list_alt),
-            label: 'Nakupovalni seznam',
+            label: 'Seznam',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

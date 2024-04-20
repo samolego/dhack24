@@ -4,9 +4,11 @@ import 'package:trgovinavigator/logic/product_item.dart';
 import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
 import 'package:trgovinavigator/ui/component/dialogue.dart';
+import 'package:trgovinavigator/ui/component/fab_add_button.dart';
 import 'package:trgovinavigator/ui/screen/SearchProductsScreen.dart';
 
 class EditShoppingListScreen extends StatefulWidget {
+  final String name;
   final List<Widget> _shoppingList;
   final VoidCallback onClearAll;
   final Function(ProductItem) onRemove;
@@ -18,6 +20,7 @@ class EditShoppingListScreen extends StatefulWidget {
     required this.onClearAll,
     required this.onRemove,
     required this.onAdd,
+    required this.name,
   }) : _shoppingList = shoppingList;
 
   List<Widget> get shoppingList => _shoppingList;
@@ -33,7 +36,7 @@ class _EditShoppingListScreenState extends State<EditShoppingListScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Nakupovalni seznam'),
+          title: Text(widget.name),
           backgroundColor: AppColors.primary,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -66,40 +69,74 @@ class _EditShoppingListScreenState extends State<EditShoppingListScreen> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          // Circular
-          shape: const CircleBorder(),
-          onPressed: () {
-            // Push new screen
-            pushScreen(context, SearchProductListScreen(
-              onProductSelect: (p) {
-                bool canAdd = widget._shoppingList
-                    .where((element) =>
-                        (element as ShoppingItem).product.ime_izdelka ==
-                        p.ime_izdelka)
-                    .isEmpty;
-                setState(() {
-                  if (canAdd) {
-                    widget.onAdd(p);
-                    widget._shoppingList.add(ShoppingItem(
-                      product: p,
-                      onRemove: () {
-                        print("Removing product: ${p.ime_izdelka}");
-                        setState(() {
-                          widget.onRemove(p);
-                          widget._shoppingList.removeWhere((element) =>
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 3,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Uporabi",
+                  style: TextStyle(
+                    color: AppColors.primaryDark,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 1,
+              child: FabAddButton(
+                // Circular
+                onPressed: () {
+                  // Push new screen
+                  pushScreen(context, SearchProductListScreen(
+                    onProductSelect: (p) {
+                      bool canAdd = widget._shoppingList
+                          .where((element) =>
                               (element as ShoppingItem).product.ime_izdelka ==
-                              p.ime_izdelka);
-                        });
-                      },
-                    ));
-                  }
-                });
-                return canAdd;
-              },
-            ));
-          },
-          child: const Icon(Icons.add),
+                              p.ime_izdelka)
+                          .isEmpty;
+                      setState(() {
+                        if (canAdd) {
+                          widget.onAdd(p);
+                          widget._shoppingList.add(ShoppingItem(
+                            product: p,
+                            onRemove: () {
+                              print("Removing product: ${p.ime_izdelka}");
+                              setState(() {
+                                widget.onRemove(p);
+                                widget._shoppingList.removeWhere((element) =>
+                                    (element as ShoppingItem)
+                                        .product
+                                        .ime_izdelka ==
+                                    p.ime_izdelka);
+                              });
+                            },
+                          ));
+                        }
+                      });
+                      return canAdd;
+                    },
+                  ));
+                },
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
