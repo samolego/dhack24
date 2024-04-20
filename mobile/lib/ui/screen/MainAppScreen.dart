@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:trgovinavigator/ui/screen/MapScreen.dart';
 import 'package:trgovinavigator/ui/screen/ShopScanScreen.dart';
 import 'package:trgovinavigator/ui/screen/ShoppingListScreen.dart';
-
-final _future = Supabase.instance.client.from('police').select();
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key});
@@ -30,7 +27,6 @@ class _MainAppScreenState extends State<MainAppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _future.then((value) => {print(value)});
     return Scaffold(
       body: SafeArea(child: _children[_currentIndex]),
       bottomNavigationBar: BottomNavigationBar(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
-
-final _izdelki = Supabase.instance.client.from('izdelki').select();
+import 'package:trgovinavigator/ui/screen/SearchProductsScreen.dart';
 
 class ShoppingListScreen extends StatefulWidget {
   const ShoppingListScreen({super.key});
@@ -33,11 +32,8 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
             // Circular
             shape: const CircleBorder(),
             onPressed: () {
-              // Add a new item to the shopping list
-              setState(() {
-                _shoppingList
-                    .add(const ShoppingItem(itemName: "itemName", itemId: 9));
-              });
+              // Push new screen
+              pushScreen(context, const SearchProductListScreen());
             },
             child: const Icon(Icons.add),
           ),
