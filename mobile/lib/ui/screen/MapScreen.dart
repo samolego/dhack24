@@ -9,26 +9,32 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   // List to hold the positions of drawn objects
-  List<Offset> objectPositions = [];
-
+  List<Offset> objectPositions = const [Offset(0, 0), Offset(100, 100), Offset(50, 50), Offset(150, 150), Offset(200, 200)];
+  
   @override
   Widget build(BuildContext context) {
+    final image = Image.asset('assets/map.png');
     return InteractiveViewer(
       boundaryMargin: const EdgeInsets.all(20.0),
       minScale: 0.1,
       maxScale: 5.6,
-      child: Stack(
+      child: Center(
+        child: Stack(
         children: [
-          Center(
-            child: Image.asset('assets/map.png'), // Center the image
-          ),
-          GestureDetector(
+          image,
+          Container(
+          width: 100, // Set the width you want
+          height: 100, // Set the height you want
+          child: GestureDetector(
             onTapUp: (details) {
               setState(() {
                 // Add the position where user tapped
-                objectPositions.add(details.localPosition);
+                var point = details.localPosition;
+                objectPositions.add(point);
+                debugPrint("$point");
               });
             },
+          )
           ),
           CustomPaint(
             // Use CustomPaint to draw objects on top of the image
@@ -36,6 +42,7 @@ class _MapScreenState extends State<MapScreen> {
           ),
         ],
       ),
+    )
     );
   }
 }
