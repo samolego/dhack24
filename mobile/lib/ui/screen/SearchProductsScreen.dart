@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:trgovinavigator/constants.dart';
 import 'package:trgovinavigator/logic/product_item.dart';
 
 final _products = Supabase.instance.client.from('izdelki').select();
 
 class SearchProductListScreen extends StatefulWidget {
-  final void Function(ProductItem) onProductSelect;
+  final bool Function(ProductItem) onProductSelect;
 
-  const SearchProductListScreen({super.key, required this.onProductSelect});
+  const SearchProductListScreen({
+    super.key,
+    required this.onProductSelect,
+  });
 
   @override
   State<SearchProductListScreen> createState() =>
@@ -15,9 +19,7 @@ class SearchProductListScreen extends StatefulWidget {
 }
 
 class _SearchProductListScreenState extends State<SearchProductListScreen> {
-  List<dynamic> _selectedProducts = [];
-  TextEditingController _searchController = TextEditingController();
-  List<dynamic> _filteredProducts = [];
+  final TextEditingController _searchController = TextEditingController();
   bool _isSearching = false;
 
   @override
@@ -40,6 +42,7 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primary,
         title: _isSearching
             ? TextField(
                 controller: _searchController,
@@ -53,7 +56,7 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
         ),
         actions: <Widget>[
@@ -65,8 +68,8 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
                   _isSearching = true;
                 });
               },
-            ),
-          if (_isSearching)
+            )
+          else
             IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
@@ -99,7 +102,38 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
               final product = filteredProducts[index];
               return ListTile(
                 title: Text(product['ime_izdelka']),
-                onTap: () {},
+                onTap: () {
+                  bool added = widget.onProductSelect(
+                    ProductItem(
+                      id_izdelka: product["id_izdelka"],
+                      id_police: product["id_police"],
+                      ime_izdelka: product["ime_izdelka"],
+                    ),
+                  );
+                  if (added) {
+                    final ScaffoldMessengerState scaffoldMessenger =
+                        ScaffoldMessenger.of(context);
+
+                    final SnackBar snackBar = SnackBar(
+                        duration: const Duration(seconds: 1),
+                        content: Text("Dodano: ${product['ime_izdelka']}"));
+
+                    // Find the nearest ScaffoldMessengerState object in the widget tree
+                    final ScaffoldMessengerState? nearestScaffoldMessenger =
+                        context
+                            .findAncestorStateOfType<ScaffoldMessengerState>();
+
+                    // If the nearest ScaffoldMessengerState object is not null, use it to show the snackbar
+                    if (nearestScaffoldMessenger != null) {
+                      nearestScaffoldMessenger.hideCurrentSnackBar();
+                      nearestScaffoldMessenger.showSnackBar(snackBar);
+                    } else {
+                      // If the nearest ScaffoldMessengerState object is null, use the global ScaffoldMessenger to show the snackbar
+                      scaffoldMessenger.hideCurrentSnackBar();
+                      scaffoldMessenger.showSnackBar(snackBar);
+                    }
+                  }
+                },
               );
             }),
           );

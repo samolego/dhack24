@@ -14,13 +14,22 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return FlutterMap(
       options: const MapOptions(
-        initialCenter: LatLng(51.509364, -0.128928),
-        initialZoom: 9.2,
+        initialCenter: LatLng(46.05, 14.4688),
+        initialZoom: 18,
       ),
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.app',
+        ),
+        PolygonLayer(
+          polygons: [
+            Polygon(
+              points: const [LatLng(46.05, 14.4688), LatLng(46.05, 14.4689), LatLng(46.051, 14.4689), LatLng(46.051, 14.4688)],
+              color: Colors.blue,
+              isFilled: true,
+            ),
+          ],
         ),
         RichAttributionWidget(
           attributions: [
