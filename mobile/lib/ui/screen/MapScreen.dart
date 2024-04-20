@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -12,32 +10,13 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
-      options: MapOptions(
-        initialCenter: const LatLng(0, 0),
-        initialZoom: 0,
-        minZoom: 0,
-        cameraConstraint: CameraConstraint.containCenter(
-          bounds: LatLngBounds(
-            const LatLng(0, 0),
-            const LatLng(0, 0),
-          ),
-        ),
+    return Center(
+      child: InteractiveViewer(
+        boundaryMargin: const EdgeInsets.all(20.0),
+        minScale: 0.1,
+        maxScale: 5.6,
+        child: Image.asset('assets/map.png'),
       ),
-      children: [
-        TileLayer(
-          tileProvider: AssetTileProvider(),
-          urlTemplate: 'assets/offlineMap/{z}/{x}/{y}.png',
-        ),
-        RichAttributionWidget(
-          attributions: [
-            TextSourceAttribution(
-              'OpenStreetMap contributors',
-              onTap: () => print('OpenStreetMap contributors'),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
