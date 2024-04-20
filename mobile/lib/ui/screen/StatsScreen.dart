@@ -69,35 +69,35 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
         Positioned(
           bottom: 0,
-          top: 80,
+          top: 50,
           right: 0,
           left: 0,
           child: Column(
             children: [
+
               Container(
                 padding: const EdgeInsets.all(8.0),
                 // centre to the left
-                alignment: Alignment.centerLeft,
                 child: Column(
                   children: [
                     Text(
                       "Čas prihranjen z uporabo aplikacije:",
-                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
                       "$timeSaved minut",
-                      style: Theme.of(context).textTheme.titleLarge,
+                      maxLines: 1,
                     ),
                     // number of usages of the app
                     Text(
-                      "Število uporab aplikacije: 5",
-                      style: Theme.of(context).textTheme.titleLarge,
+                      "Število uporab aplikacije: ",
+                    ),
+                    Text(
+                      "${random.nextInt(10)}",
+                      maxLines: 1,
                     ),
                     // display the graph of last 5 usages
                     Container(
                       height: 200,
-                      // set the width of a graph relative to the screen width
-
                       width: 380,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -157,7 +157,7 @@ class GraphPainter extends CustomPainter {
       fontSize: 12,
     );
 
-    final xLabels = ['Day 1', 'Day 2', 'Day 3']; // Replace with actual labels for the X-axis
+    final xLabels = ['Day 1', 'Day 2', 'Day 3',"Day 4"]; // Replace with actual labels for the X-axis
     final yLabels = ['0', '10', '20', '30']; // Replace with actual labels for the Y-axis
 
     final xLabelOffset = 20.0; // Offset for X-axis labels
@@ -184,12 +184,13 @@ class GraphPainter extends CustomPainter {
       tp.layout();
       tp.paint(canvas, Offset((-yLabelOffset) as double, y - 10));
     }
-
+    final ll = 3;
     // Draw usage data points
     final points = [
-      Offset(20, size.height - 20), // Replace these points with actual usage data points
-      Offset(120, size.height - 40),
-      Offset(220, size.height - 30),
+      Offset(1 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 20), // Replace these points with actual usage data points
+      Offset(2 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 30),
+      Offset(3 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 60),
+      Offset(4 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 8)
     ];
     canvas.drawPoints(PointMode.polygon, points, paint);
   }
