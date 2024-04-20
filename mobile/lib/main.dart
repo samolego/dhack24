@@ -17,7 +17,7 @@ class TrgoviNavigatorApp extends StatelessWidget {
     return MaterialApp(
       title: 'TrgoviNavigator',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryDark),
         useMaterial3: true,
         typography: Typography.material2021(),
         splashFactory: InkSparkle.splashFactory,

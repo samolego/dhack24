@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trgovinavigator/constants.dart';
 import 'package:trgovinavigator/logic/product_item.dart';
 import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
@@ -27,10 +28,38 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
           top: 0,
           right: 0,
           left: 0,
-          child: SingleChildScrollView(
-            child: Column(
-              children: shoppingList,
-            ),
+          child: Column(
+            children: [
+              Container(
+                // Add color to the container
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Nakupovalni seznam",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  children: shoppingList,
+                ),
+              ),
+            ],
           ),
         ),
         Positioned(
@@ -43,9 +72,17 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
               // Push new screen
               pushScreen(context, SearchProductListScreen(
                 onProductSelect: (p) {
+                  bool canAdd = shoppingList
+                      .where((element) =>
+                          (element as ShoppingItem).product.id_izdelka ==
+                          p.id_izdelka)
+                      .isEmpty;
                   setState(() {
-                    shoppingList.add(ShoppingItem(product: p));
+                    if (canAdd) {
+                      shoppingList.add(ShoppingItem(product: p));
+                    }
                   });
+                  return canAdd;
                 },
               ));
             },

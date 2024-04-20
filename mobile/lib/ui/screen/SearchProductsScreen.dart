@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:trgovinavigator/constants.dart';
 import 'package:trgovinavigator/logic/product_item.dart';
 
 final _products = Supabase.instance.client.from('izdelki').select();
 
 class SearchProductListScreen extends StatefulWidget {
-  final void Function(ProductItem) onProductSelect;
+  final bool Function(ProductItem) onProductSelect;
 
   const SearchProductListScreen({
     super.key,
@@ -18,9 +19,7 @@ class SearchProductListScreen extends StatefulWidget {
 }
 
 class _SearchProductListScreenState extends State<SearchProductListScreen> {
-  final List<dynamic> _selectedProducts = [];
   final TextEditingController _searchController = TextEditingController();
-  final List<dynamic> _filteredProducts = [];
   bool _isSearching = false;
 
   @override
@@ -43,6 +42,7 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primary,
         title: _isSearching
             ? TextField(
                 controller: _searchController,
@@ -68,8 +68,8 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
                   _isSearching = true;
                 });
               },
-            ),
-          if (_isSearching)
+            )
+          else
             IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
@@ -103,13 +103,36 @@ class _SearchProductListScreenState extends State<SearchProductListScreen> {
               return ListTile(
                 title: Text(product['ime_izdelka']),
                 onTap: () {
-                  widget.onProductSelect(
+                  bool added = widget.onProductSelect(
                     ProductItem(
                       id_izdelka: product["id_izdelka"],
                       id_police: product["id_police"],
                       ime_izdelka: product["ime_izdelka"],
                     ),
                   );
+                  if (added) {
+                    final ScaffoldMessengerState scaffoldMessenger =
+                        ScaffoldMessenger.of(context);
+
+                    final SnackBar snackBar = SnackBar(
+                        duration: const Duration(seconds: 1),
+                        content: Text("Dodano: ${product['ime_izdelka']}"));
+
+                    // Find the nearest ScaffoldMessengerState object in the widget tree
+                    final ScaffoldMessengerState? nearestScaffoldMessenger =
+                        context
+                            .findAncestorStateOfType<ScaffoldMessengerState>();
+
+                    // If the nearest ScaffoldMessengerState object is not null, use it to show the snackbar
+                    if (nearestScaffoldMessenger != null) {
+                      nearestScaffoldMessenger.hideCurrentSnackBar();
+                      nearestScaffoldMessenger.showSnackBar(snackBar);
+                    } else {
+                      // If the nearest ScaffoldMessengerState object is null, use the global ScaffoldMessenger to show the snackbar
+                      scaffoldMessenger.hideCurrentSnackBar();
+                      scaffoldMessenger.showSnackBar(snackBar);
+                    }
+                  }
                 },
               );
             }),
