@@ -11,15 +11,11 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
 
   final List<Widget> _children = [
-    const SafeArea(
-      child: ShoppingListScreen(),
-    ),
-    const SafeArea(
-      child: MapScreen(),
-    ),
+    const ShoppingListScreen(),
+    const MapScreen(),
     const ShopScanScreen(),
   ];
 
@@ -32,7 +28,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex],
+      body: SafeArea(child: _children[_currentIndex]),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: onTabTapped,
