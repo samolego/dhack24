@@ -81,6 +81,7 @@ class _ShoppingListSelectorScreenState
                 },
                 onTap: () {
                   lastShoppingList = item.value;
+                  lastShoppingListName = item.key;
                   pushScreen(
                       context,
                       EditShoppingListScreen(
