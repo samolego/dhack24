@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'package:trgovinavigator/ui/component/fab_add_button.dart';
+
 import '../../constants.dart';
 
 class StatsScreen extends StatefulWidget {
@@ -15,11 +17,12 @@ class StatsScreen extends StatefulWidget {
 class _StatsScreenState extends State<StatsScreen> {
   @override
   // Random number generator
-  final Random random = Random();
+  static int timeSaved = 1 + Random().nextInt(100);
+  static int usages = Random().nextInt(10);
+  static final Izdelki = ["mleko","sir"];
 
 // Generate a random time saved between 1 and 60 minutes
   Widget build(BuildContext context) {
-    int timeSaved = 1 + random.nextInt(30);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Moja statistika"),
@@ -49,7 +52,9 @@ class _StatsScreenState extends State<StatsScreen> {
                     Text(
                       "$timeSaved minut",
                       maxLines: 1,
-                      // Bold todo
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -72,8 +77,10 @@ class _StatsScreenState extends State<StatsScreen> {
                 Column(
                   children: [
                     Text(
-                      "${random.nextInt(10)}",
-                      maxLines: 1,
+                      "$usages",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -94,8 +101,60 @@ class _StatsScreenState extends State<StatsScreen> {
                 ),
               ),
               child: CustomPaint(
-                painter: GraphPainter(context),
+                painter: GraphPainter(context, "Moj prihanjen čas"),
               ),
+            ),
+            // add fab button
+            const SizedBox(
+              height: 16,
+            ),
+          ],
+        ),
+      ),
+
+      // center to the middle of the screen
+      floatingActionButton: Align(
+        //alignment: Alignment.bottomRight,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Dodaj nov seznam'),
+            const SizedBox(width: 8), // Add some spacing between text and button
+            FabAddButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Dodajanj nazadnje uporabljen seznam"),
+                      content: TextField(
+                        decoration: const InputDecoration(
+                          hintText: "Ime seznama",
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            Izdelki.add(value);
+                          });
+                        },
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Prekliči"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Dodaj"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -123,14 +182,27 @@ class _StatsScreenState extends State<StatsScreen> {
 
 class GraphPainter extends CustomPainter {
   final BuildContext context;
+  final String title;
 
-  GraphPainter(this.context);
+  GraphPainter(this.context, this.title);
 
   @override
-  void paint(Canvas canvas, Size size) {
+  void paint(Canvas canvas, Size size, ) {
     final screenWidth = MediaQuery.of(context).size.width;
     final graphWidth = screenWidth *
         0.8; // Set the width of the graph to 80% of the screen width
+    TextPainter textPainter = TextPainter(
+      text: TextSpan(
+        text: title,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
 
     final paint = Paint()
       ..color = Colors.purple
@@ -147,17 +219,20 @@ class GraphPainter extends CustomPainter {
     );
 
     final xLabels = [
-      'Day 1',
-      'Day 2',
-      'Day 3',
-      "Day 4"
-    ]; // Replace with actual labels for the X-axis
+      '14.4.',
+      '16.4.',
+      '18.4.',
+      '20.4.',
+      '22.4.',
+      '24.4.',
+      '26.4.',
+    ];
     final yLabels = [
       '0',
       '10',
       '20',
       '30'
-    ]; // Replace with actual labels for the Y-axis
+    ];
 
     final xLabelOffset = 20.0; // Offset for X-axis labels
     final yLabelOffset = 20.0; // Offset for Y-axis labels
@@ -202,7 +277,23 @@ class GraphPainter extends CustomPainter {
       Offset(
           3 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 60),
       Offset(
-          4 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 8)
+          4 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 8),
+      Offset(
+          5 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 42),
+      Offset(
+          6 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 23),
+      Offset(
+          7 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 12),
+      Offset(
+          8 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 0),
+      Offset(
+          9 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 0),
+      Offset(
+          10 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 0),
+      Offset(
+          11* (graphWidth / (xLabels.length) - xLabelOffset), size.height - 0),
+      Offset(
+          12 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 12)
     ];
     canvas.drawPoints(PointMode.polygon, points, paint);
   }
