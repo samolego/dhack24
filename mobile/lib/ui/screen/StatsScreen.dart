@@ -19,7 +19,6 @@ class _StatsScreenState extends State<StatsScreen> {
   // Random number generator
   static int timeSaved = 1 + Random().nextInt(100);
   static int usages = Random().nextInt(10);
-  static final Izdelki = ["mleko","sir"];
 
   @override
   Widget build(BuildContext context) {
@@ -40,58 +39,71 @@ class _StatsScreenState extends State<StatsScreen> {
         },
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Column(
+            Card(
+              borderOnForeground: true,
+              surfaceTintColor: Colors.white,
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   children: [
-                    Text(
-                      "Čas prihranjen z uporabo aplikacije:",
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Column(
+                          children: [
+                            Text(
+                              "Čas prihranjen z uporabo aplikacije:",
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "$timeSaved minut",
+                              maxLines: 1,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // number of usages of the app
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Column(
+                          children: [
+                            Text(
+                              "Število uporab aplikacije: ",
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "$usages",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Column(
-                  children: [
-                    Text(
-                      "$timeSaved minut",
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                // number of usages of the app
-              ],
+              ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Column(
-                  children: [
-                    Text(
-                      "Število uporab aplikacije: ",
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "$usages",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+
             const SizedBox(
               height: 8,
             ),
@@ -112,8 +124,55 @@ class _StatsScreenState extends State<StatsScreen> {
             ),
             // add fab button
             const SizedBox(
-              height: 16,
+              height: 64,
             ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Zadnji nakupovalni seznam",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Card(
+                        borderOnForeground: true,
+                        surfaceTintColor: Colors.white,
+                        elevation: 4,
+                        child: InkWell(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: SingleChildScrollView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    lastShoppingListName,
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const SizedBox(height: 8.0),
+                                  Text(
+                                    // Show first 3 items
+                                    "${lastShoppingList.map((e) => e.ime_izdelka).take(3).join("\n")}${lastShoppingList.length > 3 ? "\n..." : ''}",
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -145,14 +204,17 @@ class GraphPainter extends CustomPainter {
   GraphPainter(this.context, this.title);
 
   @override
-  void paint(Canvas canvas, Size size, ) {
+  void paint(
+    Canvas canvas,
+    Size size,
+  ) {
     final screenWidth = MediaQuery.of(context).size.width;
     final graphWidth = screenWidth *
         0.8; // Set the width of the graph to 80% of the screen width
     TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
           color: Colors.black,
@@ -185,12 +247,7 @@ class GraphPainter extends CustomPainter {
       '24.4.',
       '26.4.',
     ];
-    final yLabels = [
-      '0',
-      '10',
-      '20',
-      '30'
-    ];
+    final yLabels = ['0', '10', '20', '30'];
 
     final xLabelOffset = 20.0; // Offset for X-axis labels
     final yLabelOffset = 20.0; // Offset for Y-axis labels
@@ -249,7 +306,7 @@ class GraphPainter extends CustomPainter {
       Offset(
           10 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 0),
       Offset(
-          11* (graphWidth / (xLabels.length) - xLabelOffset), size.height - 0),
+          11 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 0),
       Offset(
           12 * (graphWidth / (xLabels.length) - xLabelOffset), size.height - 12)
     ];
