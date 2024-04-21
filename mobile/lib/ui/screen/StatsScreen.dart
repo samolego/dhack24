@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:trgovinavigator/ui/component/uporabi_button.dart';
 
 import 'package:trgovinavigator/ui/component/fab_add_button.dart';
 
@@ -15,13 +16,12 @@ class StatsScreen extends StatefulWidget {
 }
 
 class _StatsScreenState extends State<StatsScreen> {
-  @override
   // Random number generator
   static int timeSaved = 1 + Random().nextInt(100);
   static int usages = Random().nextInt(10);
   static final Izdelki = ["mleko","sir"];
 
-// Generate a random time saved between 1 and 60 minutes
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,6 +32,12 @@ class _StatsScreenState extends State<StatsScreen> {
             Icons.shopping_cart,
           ),
         ],
+      ),
+      floatingActionButton: UporabiButton(
+        text: "zadnji seznam",
+        onUse: () {
+          // Implement the onUse function
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

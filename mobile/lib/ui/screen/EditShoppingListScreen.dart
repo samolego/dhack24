@@ -5,6 +5,7 @@ import 'package:trgovinavigator/logic/screen_navigator.dart';
 import 'package:trgovinavigator/ui/component/ShoppingItem.dart';
 import 'package:trgovinavigator/ui/component/dialogue.dart';
 import 'package:trgovinavigator/ui/component/fab_add_button.dart';
+import 'package:trgovinavigator/ui/component/uporabi_button.dart';
 import 'package:trgovinavigator/ui/screen/SearchProductsScreen.dart';
 
 class EditShoppingListScreen extends StatefulWidget {
@@ -80,20 +81,11 @@ class _EditShoppingListScreenState extends State<EditShoppingListScreen> {
           ),
           Expanded(
             flex: 3,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: AppColors.primary,
-              ),
-              onPressed: () {
+            child: UporabiButton(
+              onUse: () {
                 widget.onUse();
                 Navigator.pop(context);
               },
-              child: Text(
-                "Uporabi",
-                style: TextStyle(
-                  color: AppColors.primaryDark,
-                ),
-              ),
             ),
           ),
           Expanded(
