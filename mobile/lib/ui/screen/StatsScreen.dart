@@ -106,7 +106,11 @@ class _StatsScreenState extends State<StatsScreen> {
             ),
 
             const SizedBox(
-              height: 8,
+              height: 16,
+            ),
+            Text(
+              "Prihranjene minute",
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             // display the graph of last 5 usages
             Container(
