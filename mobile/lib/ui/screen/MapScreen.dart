@@ -17,6 +17,23 @@ class _MapScreenState extends State<MapScreen> {
   List<int> tspPath = [];
   late List<FractionalOffset> _objPositions;
 
+  ImageInfo? imageInfo;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    const ImageProvider imageProvider = AssetImage('assets/map.png');
+    final ImageStream imageStream =
+        imageProvider.resolve(createLocalImageConfiguration(context));
+    imageStream.addListener(
+      ImageStreamListener((ImageInfo info, bool synchronousCall) {
+        setState(() {
+          imageInfo = info;
+        });
+      }),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +50,9 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     //final image = Image.asset('assets/map.png', height: 100, width:100);
     final image = Image.asset('assets/map.png');
-
+    if (imageInfo == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     final imageSize = MediaQuery.of(context).size;
     return InteractiveViewer(
       boundaryMargin: const EdgeInsets.all(20.0),
@@ -55,10 +74,9 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   //method to get image size:
-  //FUJ
   Size getImageSize(Size imageSize) {
-    var h = 1280;
-    var w = 2412;
+    var w = imageInfo!.image.width.toDouble();
+    var h = imageInfo!.image.height.toDouble();
     var h_rel = (imageSize.width / w) * h;
     var w_rel = imageSize.width;
     return Size(w_rel, h_rel);
