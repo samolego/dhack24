@@ -36,7 +36,6 @@ class _MainAppScreenState extends State<MainAppScreen> {
           _mapObjPositions = newPositionsWaited;
         });
         onTabTapped(2);
-        print(products.map((e) => e.ime_izdelka));
       }),
       const StatsScreen(),
       MapScreen(
