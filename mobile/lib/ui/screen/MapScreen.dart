@@ -34,25 +34,22 @@ class _MapScreenState extends State<MapScreen> {
     //final image = Image.asset('assets/map.png', height: 100, width:100);
     final image = Image.asset('assets/map.png');
 
-
     final imageSize = MediaQuery.of(context).size;
     return InteractiveViewer(
       boundaryMargin: const EdgeInsets.all(20.0),
       minScale: 0.1,
       maxScale: 5.6,
       child: Center(
-
-          child: Stack(
-            children: [
-              image,
-              CustomPaint(
-                size: getImageSize(imageSize),
-                // Use CustomPaint to draw objects on top of the image
-                painter:
-                    ProductMarkerPainter(widget.getObjPositions(), tspPath),
-              ),
-            ],
-          ),
+        child: Stack(
+          children: [
+            image,
+            CustomPaint(
+              size: getImageSize(imageSize),
+              // Use CustomPaint to draw objects on top of the image
+              painter: ProductMarkerPainter(_objPositions, tspPath),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -64,9 +61,8 @@ class _MapScreenState extends State<MapScreen> {
     var w = 2412;
     var h_rel = (imageSize.width / w) * h;
     var w_rel = imageSize.width;
-    return Size(w_rel,h_rel);
+    return Size(w_rel, h_rel);
   }
-
 }
 
 // Custom Painter class to draw objects on canvas
@@ -93,7 +89,8 @@ class ProductMarkerPainter extends CustomPainter {
       final end = objectPositions[tspPath[i + 1]];
       final startOffset = Offset(start.dx * size.width, start.dy * size.height);
       final endOffset = Offset(end.dx * size.width, end.dy * size.height);
-      canvas.drawLine(startOffset, endOffset, paint); // Draw a line between each pair of points
+      canvas.drawLine(startOffset, endOffset,
+          paint); // Draw a line between each pair of points
     }
   }
 
