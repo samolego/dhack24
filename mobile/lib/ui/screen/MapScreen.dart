@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trgovinavigator/logic/tsp.dart';
 
 class MapScreen extends StatefulWidget {
   final List<FractionalOffset> Function() getObjPositions;
@@ -13,6 +14,20 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  List<int> tspPath = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final objPositions = widget.getObjPositions();
+    findTSP(objPositions, 1, 1).then((value) {
+      debugPrint("TSP path: $value");
+      setState(() {
+        tspPath = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final image = Image.asset('assets/map.png');
@@ -30,7 +45,8 @@ class _MapScreenState extends State<MapScreen> {
               image,
               CustomPaint(
                 // Use CustomPaint to draw objects on top of the image
-                painter: ProductMarkerPainter(widget.getObjPositions()),
+                painter:
+                    ProductMarkerPainter(widget.getObjPositions(), tspPath),
               ),
             ],
           ),
@@ -43,8 +59,9 @@ class _MapScreenState extends State<MapScreen> {
 // Custom Painter class to draw objects on canvas
 class ProductMarkerPainter extends CustomPainter {
   final List<FractionalOffset> objectPositions;
+  final List<int> tspPath;
 
-  ProductMarkerPainter(this.objectPositions);
+  ProductMarkerPainter(this.objectPositions, this.tspPath);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -57,6 +74,14 @@ class ProductMarkerPainter extends CustomPainter {
       final offset =
           Offset(position.dx * size.width, position.dy * size.height);
       canvas.drawCircle(offset, 5, paint); // Draw a dot at each positionp
+    }
+
+    for (var i = 0; i < tspPath.length - 1; i++) {
+      final start = objectPositions[tspPath[i]];
+      final end = objectPositions[tspPath[i + 1]];
+      final startOffset = Offset(start.dx * size.width, start.dy * size.height);
+      final endOffset = Offset(end.dx * size.width, end.dy * size.height);
+      canvas.drawLine(startOffset, endOffset, paint); // Draw a line between each pair of points
     }
   }
 
