@@ -26,6 +26,7 @@ final Map<String, List<ProductItem>> shoppingLists = {
     ProductItem(ime_izdelka: "Žemljice", id_police: 6),
   ],
 };
+var lastShoppingList = shoppingLists['Tedenski']!;
 
 class AppColors {
   static Color primary = Colors.purple[100]!;

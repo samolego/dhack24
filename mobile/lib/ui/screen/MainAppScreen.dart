@@ -18,28 +18,32 @@ class _MainAppScreenState extends State<MainAppScreen> {
 
   late final List<Widget> _children;
 
+  void onUseProducts(products) async {
+    // Navigate to map screen
+    final newPos = products.map((e) {
+      return getOffsetForProduct(e);
+    }).toList();
+    final newPositionsWaited = <FractionalOffset>[];
+    newPositionsWaited.add(const FractionalOffset(0, 0));
+
+    for (final np in newPos) {
+      final newPs = await np;
+      newPositionsWaited.add(newPs);
+    }
+
+    newPositionsWaited.add(const FractionalOffset(0.0, 0.8));
+
+    setState(() {
+      _mapObjPositions = newPositionsWaited;
+    });
+    onTabTapped(2);
+  }
+
   @override
   void initState() {
     super.initState();
     _children = [
-      ShoppingListSelectorScreen(onUse: (products) async {
-        // Navigate to map screen
-        final newPos = products.map((e) {
-          return getOffsetForProduct(e);
-        }).toList();
-        final newPositionsWaited = <FractionalOffset>[];
-        newPositionsWaited.add(const FractionalOffset(0, 0));
-
-        for (final np in newPos) {
-          final newPs = await np;
-          newPositionsWaited.add(newPs);
-        }
-
-        setState(() {
-          _mapObjPositions = newPositionsWaited;
-        });
-        onTabTapped(2);
-      }),
+      ShoppingListSelectorScreen(onUse: (products) => onUseProducts(products)),
       const StatsScreen(),
       MapScreen(
         getObjPositions: () => _mapObjPositions,

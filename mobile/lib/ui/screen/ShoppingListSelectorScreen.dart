@@ -80,6 +80,7 @@ class _ShoppingListSelectorScreenState
                   );
                 },
                 onTap: () {
+                  lastShoppingList = item.value;
                   pushScreen(
                       context,
                       EditShoppingListScreen(
@@ -109,14 +110,14 @@ class _ShoppingListSelectorScreenState
                         },
                         shoppingList: productList
                             .map((e) => ShoppingItem(
-                                product: e,
-                                onRemove: () {
-                                  setState(() {
-                                    item.value.remove(e);
-                                    _shoppingLists[item.key] = item.value;
-                                    shoppingLists[item.key] = item.value;
-                                  });
-                                }))
+                            product: e,
+                            onRemove: () {
+                              setState(() {
+                                item.value.remove(e);
+                                _shoppingLists[item.key] = item.value;
+                                shoppingLists[item.key] = item.value;
+                              });
+                            }))
                             .toList(),
                       ));
                 },
