@@ -29,6 +29,15 @@ class _MapScreenState extends State<MapScreen> {
       ImageStreamListener((ImageInfo info, bool synchronousCall) {
         setState(() {
           imageInfo = info;
+
+          findTSP(_objPositions, imageInfo!.image.width.toDouble(),
+                  imageInfo!.image.height.toDouble())
+              .then((value) {
+            debugPrint("TSP path: $value");
+            setState(() {
+              tspPath = value;
+            });
+          });
         });
       }),
     );
@@ -38,12 +47,6 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     _objPositions = widget.getObjPositions();
-    findTSP(_objPositions, 2412, 1280).then((value) {
-      debugPrint("TSP path: $value");
-      setState(() {
-        tspPath = value;
-      });
-    });
   }
 
   @override
