@@ -17,7 +17,7 @@ final Map<String, List<ProductItem>> shoppingLists = {
     ProductItem(ime_izdelka: 'Sir', id_police: 4),
     ProductItem(ime_izdelka: 'Banane', id_police: 1),
   ],
-  'Mercator': <ProductItem>[
+  'Mati naročili': <ProductItem>[
     ProductItem(ime_izdelka: "Cvetača", id_police: 2),
     ProductItem(ime_izdelka: "Brokoli", id_police: 2),
     ProductItem(ime_izdelka: "Piščančje prsi", id_police: 5),
