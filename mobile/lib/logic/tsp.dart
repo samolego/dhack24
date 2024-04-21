@@ -9,14 +9,12 @@ Future<List<int>> findTSP(final List<FractionalOffset> objectPositions,
     return [];
   }
 
-  var locations = [
-    CitiesLocations(cityName: "Start", latitude: 0, longitude: 0)
-  ];
-
-  locations.addAll(objectPositions.map((e) => CitiesLocations(
-      cityName: e.hashCode.toString(),
-      latitude: e.dy * imgHeight,
-      longitude: e.dx * imgWidth)));
+  final locations = objectPositions
+      .map((e) => CitiesLocations(
+          cityName: e.hashCode.toString(),
+          latitude: e.dy * imgHeight,
+          longitude: e.dx * imgWidth))
+      .toList();
 
   // Calculate the TSP route
   return TspPackage.calculateTspRoute(
