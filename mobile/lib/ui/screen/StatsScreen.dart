@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:trgovinavigator/ui/component/uporabi_button.dart';
 
-import 'package:trgovinavigator/ui/component/fab_add_button.dart';
-
 import '../../constants.dart';
 
 class StatsScreen extends StatefulWidget {
@@ -113,54 +111,6 @@ class _StatsScreenState extends State<StatsScreen> {
             // add fab button
             const SizedBox(
               height: 16,
-            ),
-          ],
-        ),
-      ),
-
-      // center to the middle of the screen
-      floatingActionButton: Align(
-        //alignment: Alignment.bottomRight,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Dodaj nov seznam'),
-            const SizedBox(width: 8), // Add some spacing between text and button
-            FabAddButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Dodajanj nazadnje uporabljen seznam"),
-                      content: TextField(
-                        decoration: const InputDecoration(
-                          hintText: "Ime seznama",
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Izdelki.add(value);
-                          });
-                        },
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Prekliči"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Dodaj"),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
             ),
           ],
         ),
