@@ -15,12 +15,30 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   List<int> tspPath = [];
+  late List<FractionalOffset> _objPositions;
+
+  ImageInfo? imageInfo;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    const ImageProvider imageProvider = AssetImage('assets/map.png');
+    final ImageStream imageStream =
+        imageProvider.resolve(createLocalImageConfiguration(context));
+    imageStream.addListener(
+      ImageStreamListener((ImageInfo info, bool synchronousCall) {
+        setState(() {
+          imageInfo = info;
+        });
+      }),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    final objPositions = widget.getObjPositions();
-    findTSP(objPositions, 1, 1).then((value) {
+    _objPositions = widget.getObjPositions();
+    findTSP(_objPositions, 2412, 1280).then((value) {
       debugPrint("TSP path: $value");
       setState(() {
         tspPath = value;
@@ -32,38 +50,36 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     //final image = Image.asset('assets/map.png', height: 100, width:100);
     final image = Image.asset('assets/map.png');
-
-
+    if (imageInfo == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     final imageSize = MediaQuery.of(context).size;
     return InteractiveViewer(
       boundaryMargin: const EdgeInsets.all(20.0),
       minScale: 0.1,
       maxScale: 5.6,
       child: Center(
-
-          child: Stack(
-            children: [
-              image,
-              CustomPaint(
-                size: getImageSize(imageSize),
-                // Use CustomPaint to draw objects on top of the image
-                painter:
-                    ProductMarkerPainter(widget.getObjPositions(), tspPath),
-              ),
-            ],
-          ),
+        child: Stack(
+          children: [
+            image,
+            CustomPaint(
+              size: getImageSize(imageSize),
+              // Use CustomPaint to draw objects on top of the image
+              painter: ProductMarkerPainter(_objPositions, tspPath),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   //method to get image size:
-  //FUJ
   Size getImageSize(Size imageSize) {
-    var h = 1280;
-    var w = 2412;
+    var w = imageInfo!.image.width.toDouble();
+    var h = imageInfo!.image.height.toDouble();
     var h_rel = (imageSize.width / w) * h;
     var w_rel = imageSize.width;
-    return Size(w_rel,h_rel);
+    return Size(w_rel, h_rel);
   }
 }
 
@@ -91,7 +107,8 @@ class ProductMarkerPainter extends CustomPainter {
       final end = objectPositions[tspPath[i + 1]];
       final startOffset = Offset(start.dx * size.width, start.dy * size.height);
       final endOffset = Offset(end.dx * size.width, end.dy * size.height);
-      canvas.drawLine(startOffset, endOffset, paint); // Draw a line between each pair of points
+      canvas.drawLine(startOffset, endOffset,
+          paint); // Draw a line between each pair of points
     }
   }
 

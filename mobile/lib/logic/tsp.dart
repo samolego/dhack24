@@ -5,13 +5,16 @@ Future<List<int>> findTSP(final List<FractionalOffset> objectPositions,
     double imgWidth, double imgHeight) async {
   debugPrint("Not using imgWidth: $imgWidth in imgHeight: $imgHeight!!");
 
+  if (objectPositions.isEmpty) {
+    return [];
+  }
+
   // Define a list locations
   final List<CitiesLocations> locations = objectPositions
       .map((e) => CitiesLocations(
           cityName: e.hashCode.toString(),
-          latitude: e.dy, // * imgHeight,
-          longitude: e.dx // * imgWidth
-          ))
+          latitude: e.dy * imgHeight,
+          longitude: e.dx * imgWidth))
       .toList();
 
   // Calculate the TSP route
