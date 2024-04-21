@@ -128,55 +128,43 @@ class _StatsScreenState extends State<StatsScreen> {
               height: 64,
             ),
             Expanded(
-              child: Row(
+              child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        "Zadnji nakupovalni seznam",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Center(
-                        child: Card(
-                          borderOnForeground: true,
-                          surfaceTintColor: Colors.white,
-                          elevation: 4,
-                          child: InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: SingleChildScrollView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      lastShoppingListName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
-                                    const SizedBox(height: 8.0),
-                                    Text(
-                                      // Show first 3 items
-                                      "${lastShoppingList.map((e) => e.ime_izdelka).take(3).join("\n")}${lastShoppingList.length > 3 ? "\n..." : ''}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                  ],
-                                ),
+                  Text(
+                    "Zadnji nakupovalni seznam",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Card(
+                    borderOnForeground: true,
+                    surfaceTintColor: Colors.white,
+                    elevation: 4,
+                    child: InkWell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                lastShoppingListName,
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
-                            ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                // Show first 3 items
+                                "${lastShoppingList.map((e) => e.ime_izdelka).take(3).join("\n")}${lastShoppingList.length > 3 ? "\n..." : ''}",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
