@@ -57,7 +57,7 @@ class _StatsScreenState extends State<StatsScreen> {
                         const Column(
                           children: [
                             Text(
-                              "Čas prihranjen z uporabo aplikacije:",
+                              "Čas, prihranjen z uporabo aplikacije:",
                             ),
                           ],
                         ),
@@ -67,6 +67,7 @@ class _StatsScreenState extends State<StatsScreen> {
                               "$timeSaved minut",
                               maxLines: 1,
                               style: const TextStyle(
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -93,6 +94,7 @@ class _StatsScreenState extends State<StatsScreen> {
                             Text(
                               "$usages",
                               style: const TextStyle(
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -108,6 +110,17 @@ class _StatsScreenState extends State<StatsScreen> {
             const SizedBox(
               height: 16,
             ),
+            const SizedBox(
+              width: 256,
+              child: Divider(
+                color: Colors.grey,
+                thickness: 2,
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+
             Text(
               "Prihranjene minute",
               style: Theme.of(context).textTheme.titleLarge,
@@ -118,7 +131,7 @@ class _StatsScreenState extends State<StatsScreen> {
               height: 200,
               width: 380,
               child: CustomPaint(
-                painter: GraphPainter(context, "Moj prihanjen čas"),
+                painter: GraphPainter(context, ""),
               ),
             ),
             // add fab button
