@@ -40,6 +40,7 @@ dependencies:
   flutter_map: ^6.1.0
   flutter_map_geojson: ^1.0.8
   supabase_flutter: ^2.5.1
+  tsp_route_finder: ^0.0.3
 
 dev_dependencies:
   flutter_test:
