@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:trgovinavigator/logic/product_item.dart';
 import 'package:trgovinavigator/ui/screen/MapScreen.dart';
 import 'package:trgovinavigator/ui/screen/ShoppingListSelectorScreen.dart';
 import 'package:trgovinavigator/ui/screen/StatsScreen.dart';
@@ -19,8 +21,17 @@ class _MainAppScreenState extends State<MainAppScreen> {
   void initState() {
     super.initState();
     _children = [
-      ShoppingListSelectorScreen(onUse: (products) {
-        // Naviagte to map screen
+      ShoppingListSelectorScreen(onUse: (products) async {
+        // Navigate to map screen
+        final newPos = products.map((e) {
+          return getOffsetForProduct(e);
+        }).toList();
+        final newPositionsWaited = <FractionalOffset>[];
+        for (final np in newPos) {
+          final newPs = await np;
+          newPositionsWaited.add(newPs);
+        }
+        (_children[2] as MapScreen).updateObjectPositions(newPositionsWaited);
         onTabTapped(2);
         print(products.map((e) => e.ime_izdelka));
       }),
@@ -59,4 +70,17 @@ class _MainAppScreenState extends State<MainAppScreen> {
       ),
     );
   }
+}
+
+Future<FractionalOffset> getOffsetForProduct(ProductItem e) async {
+  // Should return offset 0 ... 1
+  // Get polica for product
+  final police = await Supabase.instance.client
+      .from("police")
+      .select("*")
+      .eq("id_police", e.id_police)
+      .select("x, y")
+      .limit(1);
+  final polica = police[0];
+  return FractionalOffset(polica["x"] as double, polica["y"] as double);
 }
