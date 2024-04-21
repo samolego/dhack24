@@ -7,7 +7,9 @@ import 'package:trgovinavigator/ui/component/uporabi_button.dart';
 import '../../constants.dart';
 
 class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key});
+  final VoidCallback onUse;
+
+  const StatsScreen({super.key, required this.onUse});
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();
@@ -34,7 +36,7 @@ class _StatsScreenState extends State<StatsScreen> {
       floatingActionButton: UporabiButton(
         text: "zadnji seznam",
         onUse: () {
-          // Implement the onUse function
+          widget.onUse();
         },
       ),
       body: Padding(

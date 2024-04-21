@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:trgovinavigator/constants.dart';
 import 'package:trgovinavigator/logic/product_item.dart';
 import 'package:trgovinavigator/ui/screen/MapScreen.dart';
 import 'package:trgovinavigator/ui/screen/ShoppingListSelectorScreen.dart';
@@ -44,7 +45,9 @@ class _MainAppScreenState extends State<MainAppScreen> {
     super.initState();
     _children = [
       ShoppingListSelectorScreen(onUse: (products) => onUseProducts(products)),
-      const StatsScreen(),
+      StatsScreen(
+        onUse: () => onUseProducts(lastShoppingList),
+      ),
       MapScreen(
         getObjPositions: () => _mapObjPositions,
       ),
