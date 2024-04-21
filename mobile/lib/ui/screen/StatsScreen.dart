@@ -113,12 +113,6 @@ class _StatsScreenState extends State<StatsScreen> {
               padding: const EdgeInsets.all(16.0),
               height: 200,
               width: 380,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: AppColors.primary,
-                  width: 0,
-                ),
-              ),
               child: CustomPaint(
                 painter: GraphPainter(context, "Moj prihanjen čas"),
               ),
