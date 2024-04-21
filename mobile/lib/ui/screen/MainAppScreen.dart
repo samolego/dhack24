@@ -28,10 +28,13 @@ class _MainAppScreenState extends State<MainAppScreen> {
           return getOffsetForProduct(e);
         }).toList();
         final newPositionsWaited = <FractionalOffset>[];
+        newPositionsWaited.add(const FractionalOffset(0, 0));
+
         for (final np in newPos) {
           final newPs = await np;
           newPositionsWaited.add(newPs);
         }
+
         setState(() {
           _mapObjPositions = newPositionsWaited;
         });
