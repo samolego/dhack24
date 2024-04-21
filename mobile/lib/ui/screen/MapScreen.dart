@@ -95,23 +95,35 @@ class ProductMarkerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.teal
-      ..strokeWidth = 2.0
+    final paintPoint = Paint()
+      ..color = Colors.orange
+      ..strokeWidth = 4.0
       ..style = PaintingStyle.stroke;
-    for (var position in objectPositions) {
-      final offset =
-          Offset(position.dx * size.width, position.dy * size.height);
-      canvas.drawCircle(offset, 5, paint); // Draw a dot at each positionp
-    }
+
+    final paintBorder = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 6.0
+      ..style = PaintingStyle.stroke;
+
+    final paintLine = Paint()
+      ..color = Colors.yellow
+      ..strokeWidth = 4.0
+      ..style = PaintingStyle.stroke;
 
     for (var i = 0; i < tspPath.length - 1; i++) {
       final start = objectPositions[tspPath[i]];
       final end = objectPositions[tspPath[i + 1]];
       final startOffset = Offset(start.dx * size.width, start.dy * size.height);
       final endOffset = Offset(end.dx * size.width, end.dy * size.height);
-      canvas.drawLine(startOffset, endOffset,
-          paint); // Draw a line between each pair of points
+      canvas.drawLine(startOffset, endOffset, paintBorder);
+      canvas.drawLine(startOffset, endOffset, paintLine); // Draw a line between each pair of points
+    }
+
+    for (var position in objectPositions) {
+      final offset =
+      Offset(position.dx * size.width, position.dy * size.height);
+      canvas.drawCircle(offset, 5, paintBorder); // Draw a dot at each positionp
+      canvas.drawCircle(offset, 5, paintPoint);
     }
   }
 
