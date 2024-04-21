@@ -15,12 +15,13 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   List<int> tspPath = [];
+  late List<FractionalOffset> _objPositions;
 
   @override
   void initState() {
     super.initState();
-    final objPositions = widget.getObjPositions();
-    findTSP(objPositions, 1, 1).then((value) {
+    _objPositions = widget.getObjPositions();
+    findTSP(_objPositions, 1, 1).then((value) {
       debugPrint("TSP path: $value");
       setState(() {
         tspPath = value;
@@ -46,10 +47,9 @@ class _MapScreenState extends State<MapScreen> {
               image,
               CustomPaint(
                 size: getImageSize(imageSize),
-                // Use CustomPaint to draw objects on top of the image
-                painter:
-                    ProductMarkerPainter(widget.getObjPositions(), tspPath),
-              ),
+              // Use CustomPaint to draw objects on top of the image
+              painter: ProductMarkerPainter(_objPositions, tspPath),
+            ),
             ],
           ),
       ),
