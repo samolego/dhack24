@@ -13,7 +13,8 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
+  List<FractionalOffset> _mapObjPositions = <FractionalOffset>[];
 
   late final List<Widget> _children;
 
@@ -31,12 +32,16 @@ class _MainAppScreenState extends State<MainAppScreen> {
           final newPs = await np;
           newPositionsWaited.add(newPs);
         }
-        (_children[2] as MapScreen).updateObjectPositions(newPositionsWaited);
+        setState(() {
+          _mapObjPositions = newPositionsWaited;
+        });
         onTabTapped(2);
         print(products.map((e) => e.ime_izdelka));
       }),
       const StatsScreen(),
-      const MapScreen(),
+      MapScreen(
+        getObjPositions: () => _mapObjPositions,
+      ),
     ];
   }
 
