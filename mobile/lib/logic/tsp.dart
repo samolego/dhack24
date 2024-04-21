@@ -16,10 +16,13 @@ Future<List<int>> findTSP(final List<FractionalOffset> objectPositions,
           longitude: e.dx * imgWidth))
       .toList();
 
+  locations.removeLast();
+
   // Calculate the TSP route
   return TspPackage.calculateTspRoute(
           locations: locations, startingLocationIndex: 0)
       .then((value) {
+    value.add(objectPositions.length - 1);
     value.add(0);
     return value;
   });
