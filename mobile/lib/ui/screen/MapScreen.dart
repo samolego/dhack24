@@ -65,7 +65,6 @@ class _MapScreenState extends State<MapScreen> {
     var w_rel = imageSize.width;
     return Size(w_rel,h_rel);
   }
-
 }
 
 // Custom Painter class to draw objects on canvas
@@ -78,7 +77,7 @@ class ProductMarkerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.red
+      ..color = Colors.teal
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke;
     for (var position in objectPositions) {
