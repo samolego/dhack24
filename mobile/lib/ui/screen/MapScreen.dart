@@ -21,7 +21,7 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     _objPositions = widget.getObjPositions();
-    findTSP(_objPositions, 1, 1).then((value) {
+    findTSP(_objPositions, 2412, 1280).then((value) {
       debugPrint("TSP path: $value");
       setState(() {
         tspPath = value;
@@ -47,9 +47,10 @@ class _MapScreenState extends State<MapScreen> {
               image,
               CustomPaint(
                 size: getImageSize(imageSize),
-              // Use CustomPaint to draw objects on top of the image
-              painter: ProductMarkerPainter(_objPositions, tspPath),
-            ),
+                // Use CustomPaint to draw objects on top of the image
+                painter:
+                    ProductMarkerPainter(widget.getObjPositions(), tspPath),
+              ),
             ],
           ),
       ),
