@@ -38,6 +38,7 @@ class _StatsScreenState extends State<StatsScreen> {
           widget.onUse();
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -126,43 +127,50 @@ class _StatsScreenState extends State<StatsScreen> {
             const SizedBox(
               height: 64,
             ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Column(
+            Expanded(
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
                     mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Zadnji nakupovalni seznam",
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      Card(
-                        borderOnForeground: true,
-                        surfaceTintColor: Colors.white,
-                        elevation: 4,
-                        child: InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: SingleChildScrollView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    lastShoppingListName,
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Text(
-                                    // Show first 3 items
-                                    "${lastShoppingList.map((e) => e.ime_izdelka).take(3).join("\n")}${lastShoppingList.length > 3 ? "\n..." : ''}",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ],
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Center(
+                        child: Card(
+                          borderOnForeground: true,
+                          surfaceTintColor: Colors.white,
+                          elevation: 4,
+                          child: InkWell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: SingleChildScrollView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      lastShoppingListName,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                    const SizedBox(height: 8.0),
+                                    Text(
+                                      // Show first 3 items
+                                      "${lastShoppingList.map((e) => e.ime_izdelka).take(3).join("\n")}${lastShoppingList.length > 3 ? "\n..." : ''}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -170,8 +178,8 @@ class _StatsScreenState extends State<StatsScreen> {
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),
